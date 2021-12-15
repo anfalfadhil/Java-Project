@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class EmployeeRunner {
@@ -73,8 +74,20 @@ public class EmployeeRunner {
 	
 	public static void employeesList() {
 
-		employees.forEach(employee -> {System.out.println(employee);
-		});
+		List<String> emps = employees.stream()
+				.map(p -> p.getFirstName())
+				.sorted()
+				.collect(Collectors.toList());
+				
+		System.out.println(emps);
+		
+//		List<Employee> emps = employees.stream().sorted().collect(Collectors.toList());
+//		emps.forEach(employee -> {System.out.println(employee);
+//		});
+		
+		
+//		employees.forEach(employee -> {System.out.println(employee);
+//		});
 		
 	}
 	
@@ -317,7 +330,8 @@ public class EmployeeRunner {
 			
 			}
 		} catch (Exception e) {
-			 System.out.println("ERROR, Something went wrong :(");
+//			 System.out.println("ERROR, Something went wrong :(");
+			e.printStackTrace();
 		}
 
 	}
