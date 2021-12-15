@@ -2,9 +2,11 @@ package JavaProject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public class EmployeeRunner {
 		emp.setDateOfEmployment(new Date());
 
 		employees.add(emp);
-		writeEmployeeToFile(emp);
+//		writeEmployeeToFile(emp);
 		employeesList();
 		return emp;
 		
@@ -150,29 +152,106 @@ public class EmployeeRunner {
 	
 	
 	
-	
 	public static void writeEmployeeToFile( Employee emp) {
 		
-		File file = new File("resources/employees.txt");
 		
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-
-			} catch (IOException e) {
-				System.out.println("FAIL: Could not create " + file.getAbsolutePath());
-			}
-		}
+		File file = null;
 		
-		try(ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file)))  {
+		FileWriter fileWriter = null;
+		
+		BufferedWriter writer1 = null;
+		
+		
+		try {
 			
-			writer.writeObject(emp);
+			file = new File("resources/employees.txt");
+			if (!file.exists()) {
+				file.createNewFile();
+				System.out.println("SUCCESS: created 'employees.txt' ");
+			} else {
+				System.out.println("DID not create 'employees.txt'");
+			}
+			
+			
+			
+			try(ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file)))  {
+				
+				writer.writeObject(emp);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+			fileWriter = new FileWriter(file);
+			writer1 = new BufferedWriter(fileWriter);
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		} finally {
+			if (writer1 != null) {
+				try {
+					writer1.close();
+				} catch (IOException e ) {
+					e.printStackTrace();
+				}
+			}
+			if (fileWriter != null) {
+				try {
+					fileWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		File file = new File("resources/employees.txt");
+//		
+//		if (!file.exists()) {
+//			try {
+//				file.createNewFile();
+//
+//			} catch (IOException e) {
+//				System.out.println("FAIL: Could not create " + file.getAbsolutePath());
+//			}
+//		}
+//		
+//		try(ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file)))  {
+//			
+//			writer.writeObject(emp);
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		
+		
+		
+		
+		
 	}
 
+	
+	
+	
+	
+	
 	
 	public static void creatingFile() {
 
